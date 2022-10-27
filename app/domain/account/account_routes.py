@@ -15,7 +15,7 @@ def get_accounts() -> List[Account]:
     return accounts
 
 
-@router.get("/{id}", response_model=Optional[Account])
+@router.get("/{id}", response_model=Account)
 def account_id(id: int) -> Optional[Account]:
 
     for account in accounts:
