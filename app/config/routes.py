@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from domain.account import account_routes
+from domain.transaction import transaction_routes
 
 
 def setup_routes(app: FastAPI):
@@ -7,3 +8,8 @@ def setup_routes(app: FastAPI):
         account_routes.router,
         tags=["Account"],
         prefix="/accounts")
+    
+    app.include_router(
+        transaction_routes.router,
+        tags=["Transaction"],
+        prefix="/transactions")

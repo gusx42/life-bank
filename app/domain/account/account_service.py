@@ -9,15 +9,10 @@ from ..account import account_model
 
 def create(db: Session, account: AccountCreateSchema) -> AccountSchema:
     # account = AccountCreateSchema
+    
     account_item = account_model.Account(**account.dict())
-    db.add(account_item)
-    db.commit()
-    db.refresh(account_item)
-
-    print(account_item)
-
-    return account_item
-    # return AccountRepository().create(db, account)
+    
+    return AccountRepository().create(db, account_item)
 
 
 def get_accounts(db: Session) -> AccountSchema:
