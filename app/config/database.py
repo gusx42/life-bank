@@ -6,7 +6,10 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql.sqltypes import DateTime
 from sqlalchemy.ext.declarative import declared_attr, declarative_base
 
-SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///mydatabase.db")
+
+SQLALCHEMY_DATABASE_URL = "postgresql://postgres:mypass@db:5432"
+# SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///mydatabase.db?check_same_thread=False")
+
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)     

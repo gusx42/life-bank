@@ -14,7 +14,7 @@ class Account(Base):
     document = Column(String, nullable=False)
     email = Column(String, nullable=False)
     phone_number = Column(String, nullable=False)
-    transaction = relationship(Transaction, backref="accounts")
+    # transaction = relationship(Transaction, backref="transaction")
 
     def __repr__(self) -> str:
         return f"{self.name}, {self.born_date}, {self.document}, {self.email}, {self.phone_number}"

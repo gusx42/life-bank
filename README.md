@@ -32,3 +32,27 @@ python main.py
 * [GET]   thunder-client (http://127.0.0.1:8000/Transactions)
 ### Realizar uma transfêrencia:
 * [POST]  thunder-client (http://127.0.0.1:8000/Transactions/)
+
+## Diagrama de Sequencia
+### GET /accounts
+```mermaid
+sequenceDiagram
+    Navegador->>+account_route: GET /accounts
+    account_route->>account_service: get_accounts()
+    account_service->>account_repository: query(Account)
+    account_repository->>account_service: List[Account]
+    account_service->>account_route: List[AccountSchema]
+    account_route->>Navegador: HTTP Status code: 200 json [accounts]
+```
+
+
+### POST /accounts
+```mermaid
+sequenceDiagram
+    Navegador->>+account_route: POST /accounts
+    account_route->>account_service: create_accunt(AccountCreateSchema)
+    account_service->>account_repository: Session.add(Account)
+    account_repository->>account_service: Account
+    account_service->>account_route: AccountSchema
+    account_route->>Navegador: HTTP Status code: 201 json account
+```

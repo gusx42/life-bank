@@ -1,12 +1,14 @@
 from datetime import datetime
+from typing import Optional
 from pydantic import BaseModel, Field
+from domain.account.account_schema import AccountSchema
 
 
 class TransactionSchema(BaseModel):
     id: int
     transaction_type: str
     amount: float
-    account_id: str
+    account: Optional[AccountSchema]
     destination_account: str
     created_at: datetime
     updated_at: datetime
@@ -18,7 +20,7 @@ class TransactionSchema(BaseModel):
 class TransactionSchemaCreate(BaseModel):
     transaction_type: str=Field(..., example="pix")
     amount: float=Field(..., example=40.12)
-    account_id: str=Field(..., example="2")
+    account_id: int=Field(..., example=2)
     destination_account: str=Field(..., example="will@net")
 
     class Config:

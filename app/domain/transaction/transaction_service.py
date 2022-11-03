@@ -9,10 +9,12 @@ from domain.transaction.transaction_schema import TransactionSchema, Transaction
 def create(db: Session, body: TransactionSchemaCreate) -> TransactionSchema:
     account_id = int(body.account_id)
     account = TransactionRepository().filter_by_id(db, Account, account_id)[0]
-    if (account is not None):
-        _account = {"name": account.name, "document": account.document, "email": account.email}
-        body.account_id = json.dumps(_account)
+    print(account)
+    # if (account is not None):
+    #     _account = {"name": account.name, "document": account.document, "email": account.email}
+    #     body.account = json.dumps(_account)
     transaction = Transaction(**body.dict())
+    print(transaction)
     return TransactionRepository().create(db, transaction)
 
 

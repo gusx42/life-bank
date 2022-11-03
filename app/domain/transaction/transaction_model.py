@@ -12,8 +12,8 @@ class Transaction(Base):
     transaction_type = Column(String, nullable=False)
     amount = Column(Float, nullable=False)
     destination_account = Column(String, nullable=False)
-    account_id = Column(String, ForeignKey("accounts.id"))
-    account = relationship("Account")
+    account_id = Column(Integer,  ForeignKey("accounts.id"))
+    account = relationship("Account", backref="accounts", uselist=False)
 
     def __repr__(self) -> str:
         return f"{self.transaction_type}, {self.amount}"
