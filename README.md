@@ -1,85 +1,133 @@
 # New Life Bank
 
-## Aula 04/10/2021
+## Aula 06 para 07
 
-### 1) Criar um repositório no GitHub com o nome ```new_life_bank```
-* .gitignore
-* LICENCE
-* README.md
+### Configurando o ambiente via gitpod
+#### 1) Entre na url abaixo
+```bash 
+https://www.gitpod.io/
+```
+#### 2) Logue e configure uma nova workspace para url abaixo:
+```bash 
+https://github.com/gusx42/life-bank
+```
 
-### 2) Abra seu Power Shell e faça um clone do repositório ```new_life_bank``` em seu ambiente CITRIX.
-```
-git clone https://github.com/<your name>/new_life_bank.git
-```
-### 3) Entre no diretório:
-```
-cd new_life_bank
-```
-### 4) Abra o vscode através do terminal.
-```
-code .
-```
-### 5) Habilite o terminal no modo Git Bash. <br/><br/>
 
-### 6) No terminal do vscode verifique a versão do Python
-```
-python --version
-```
-### 7) Instalar o ambiente virtual
-```
+## Configurando o projeto
+Caso você esteja em um ambiente local execute os passos abaixo dentro da pasta do projeto no terminal do vscode
+#### 1) Instalar o ambiente virtual
+```bash 
 pip3 install virtualenv
 ```
-### 8) Verifique a versão do virtualenv
-```
+#### 2) Verifique a versão do virtualenv
+```bash
 virtualenv --version
 ```
-### 9) Crie um ambiente virtual
-```
+#### 3) Crie um ambiente virtual
+```bash
 python -m virtualenv venv
 ```
-### 10) Ativar o ambiente virtual
+#### 4) Ativar o ambiente virtual
+```bash
+source venv/bin/activate
 ```
-source venv/Scripts/activate
-```
-```(venv)  ```
+### 5) Para rodar o servidor no terminal
 
-### 11) Verificando as bibliotecas instaladas.
+```bash
+python app/main.py
 ```
-pip3 freeze
-```
-### 12) Bibliotecas built-in. No interpretador do Python:
-```python```
-```
->> import datetime
-```
-### 13) Instalando as bibliotecas:
-```
-pip3 install fastapi uvicorn
-```
-### 14) Verifique as bibliotecas instaladas.
-```
-pip3 freeze
-```
-### 15) Arquivo requirements:
-```
-pip3 freeze >> requirements.txt
-```
-### 16) Escrever o primeiro servidor. <br/><br/>
 
-### 17) Para rodar o servidor:
+### 5) Para rodar o servidor no terminal
+
+```bash
+pip install -r requirements.txt
 ```
-uvicorn main:app --reload
+
+## Iniciando e terminando o docker-compose
+
+### Iniciando o compose 
+```sh
+docker-compose up --build
+
 ```
-### 18) Para realizar uma consulta no servidor:
-* browser (http://127.0.0.1:8000/) 
-* browser (http://127.0.0.1:8000/health/)
-* browser (http://127.0.0.1:8000/docs/)
-* curl 127.0.0.1:8000/health
-* postman
+### Terminando o compose
+```sh
+docker-compose down
+```
+
+### Instale um cliente sql para acessar os dados:
+
+#### Instale o psql
+``` bash
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo apt-get update
+sudo apt-get -y install postgresql
+```
+#### Connecte ao servidor de BD
+
+(o terminald deve pedir a senha `mypass`)
+```bash
+psql -h localhost -port 5432 -U postgres -W
+```
 
 
+## Realizar testes no servidor:
 
+### Acessando o swagger 
 
+- browser (http://127.0.0.1:8000/)
+- browser (http://127.0.0.1:8000/docs/)
 
+### Realizar testes no /health
 
+- [GET] thunder-client (http://127.0.0.1:8000/health)
+
+### Buscar todas contas cadastradas:
+
+- [GET] thunder-client (http://127.0.0.1:8000/Accounts)
+
+### Adicionar uma nova conta:
+
+- [POST] thunder-client (http://127.0.0.1:8000/Accounts/)
+
+### Buscar todas transferências realizadas:
+
+- [GET] thunder-client (http://127.0.0.1:8000/Transactions)
+
+### Realizar uma transfêrencia:
+
+- [POST] thunder-client (http://127.0.0.1:8000/Transactions/)
+
+## Documentação - Diagrama de Sequencia
+
+### GET /accounts
+
+```mermaid
+sequenceDiagram
+    Navegador->>+account_route: GET /accounts
+    account_route->>account_service: get_accounts()
+    account_service->>account_repository: query(Account)
+    account_repository->>account_service: List[Account]
+    account_service->>account_route: List[AccountSchema]
+    account_route->>Navegador: HTTP Status code: 200 json [accounts]
+```
+
+### POST /accounts
+
+```mermaid
+sequenceDiagram
+    Navegador->>+account_route: POST /accounts
+    account_route->>account_service: create_accunt(AccountCreateSchema)
+    account_service->>account_repository: Session.add(Account)
+    account_repository->>account_service: Account
+    account_service->>account_route: AccountSchema
+    account_route->>Navegador: HTTP Status code: 201 json account
+```
+## Referencias
+
+ - [Doc Oficial fastAPI](https://fastapi.tiangolo.com/)
+ - [Doc Oficial SqlAlchemy](https://docs.sqlalchemy.org/en/14/genindex.html)
+ - [Doc Oficial Compose](https://docs.docker.com/compose/)
+ - [Doc Oficial mermaid](https://mermaid-js.github.io/mermaid/#/)
 
